@@ -1,0 +1,82 @@
+@use 'sass:color';
+@use '../abstracts/variables' as vars;
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: vars.$spacing-xl;
+  background-color: vars.$background-gray;
+
+  .login-header {
+    text-align: center;
+    margin-bottom: vars.$spacing-xl;
+
+    img {
+      width: 120px;
+      margin-bottom: vars.$spacing-lg;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: vars.$text-primary;
+      margin-bottom: vars.$spacing-xs;
+    }
+
+    p {
+      color: vars.$text-secondary;
+      font-size: vars.$font-size-sm;
+    }
+  }
+
+  .login-form {
+    width: 100%;
+    max-width: 400px;
+    padding: vars.$spacing-xl;
+    background-color: white;
+    border-radius: vars.$border-radius-lg;
+    box-shadow: vars.$shadow-md;
+
+    .form-field {
+      margin-bottom: vars.$spacing-md;
+    }
+
+    .forgot-password {
+      text-align: right;
+      margin-bottom: vars.$spacing-md;
+      color: vars.$primary-color;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .submit-button {
+      margin-top: vars.$spacing-lg;
+      margin-bottom: vars.$spacing-md;
+    }
+
+    .demo-button {
+      margin-bottom: vars.$spacing-lg;
+    }
+  }
+
+  .signup-prompt {
+    margin-top: vars.$spacing-xl;
+    text-align: center;
+    color: vars.$text-secondary;
+
+    .signup-link {
+      color: vars.$primary-color;
+      cursor: pointer;
+      font-weight: 500;
+
+      &:hover {
+        background-color: color.adjust(vars.$background-gray, $lightness: -5%);
+      }
+    }
+  }
+} 

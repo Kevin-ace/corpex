@@ -1,0 +1,31 @@
+@use 'sass:color';
+@use '../abstracts/variables' as vars;
+
+.MuiDrawer-paper {
+  background-color: white;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+
+  .MuiListItemButton-root {
+    border-radius: 8px;
+    margin: 4px 8px;
+    padding: 8px 16px;
+
+    &.Mui-selected {
+      background-color: vars.$primary-color;
+      color: white;
+
+      .MuiListItemIcon-root {
+        color: white;
+      }
+
+      &:hover {
+        background-color: color.adjust(vars.$primary-color, $lightness: -5%);
+      }
+    }
+  }
+
+  .MuiListItemIcon-root {
+    color: vars.$text-secondary;
+    min-width: 40px;
+  }
+} 
