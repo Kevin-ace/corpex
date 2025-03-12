@@ -26,6 +26,11 @@ export function LoginPage() {
     }
   };
 
+  const fillDemoCredentials = () => {
+    setEmail('demo@corpex.com');
+    setPassword('demo123');
+  };
+
   return (
     <Box className="login-container">
       <Box className="login-header">
@@ -91,10 +96,7 @@ export function LoginPage() {
         <Button
           fullWidth
           variant="outlined"
-          onClick={() => {
-            setEmail('demo@example.com');
-            setPassword('demo123');
-          }}
+          onClick={fillDemoCredentials}
           className="demo-button"
         >
           Use demo account

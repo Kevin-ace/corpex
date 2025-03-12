@@ -1,4 +1,4 @@
-import { Expense, ExpenseCategory, ExpenseStatus } from '../types/expense';
+import { Expense, type ExpenseCategory, type ExpenseStatus } from '../types/expense';
 
 // Mock delay function
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));

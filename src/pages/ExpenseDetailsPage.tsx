@@ -8,32 +8,25 @@ import {
   Typography,
   Chip,
   Button,
-  Divider,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   TextField,
 } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { PageLayout } from '../components/PageLayout';
 import { RootState } from '../store/store';
-import { updateExpense } from '../store/expenseSlice';
 import { CloudUpload as CloudUploadIcon } from '@mui/icons-material';
 
 export function ExpenseDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isEditMode, setIsEditMode] = useState(false);
   const [comment, setComment] = useState('');
   const [files, setFiles] = useState<File[]>([]);
 
   // Get expense from Redux store
   const expense = useSelector((state: RootState) =>
-    state.expenses.expenses.find(e => e.id === id)
+    state.expenses.items.find(e => e.id === id)
   );
-
+  
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       'image/*': ['.jpeg', '.jpg', '.png'],
@@ -45,33 +38,19 @@ export function ExpenseDetailsPage() {
   });
 
   const handleApprove = () => {
-    if (expense) {
-      dispatch(updateExpense({
-        ...expense,
-        status: 'approved',
-        approvedOn: new Date().toISOString(),
-        approvedBy: 'current-user-id',
-        comment,
-      }));
-      navigate('/expenses');
-    }
+    // Mock approval
+    alert('Expense approved');
+    navigate('/expenses');
   };
 
   const handleReject = () => {
-    if (expense) {
-      dispatch(updateExpense({
-        ...expense,
-        status: 'rejected',
-        rejectedOn: new Date().toISOString(),
-        rejectedBy: 'current-user-id',
-        comment,
-      }));
-      navigate('/expenses');
-    }
+    // Mock rejection
+    alert('Expense rejected');
+    navigate('/expenses');
   };
 
   if (!expense) {
-    return <Typography>Expense not found</Typography>;
+    return <PageLayout title="Expense Details"><Typography>Expense not found</Typography></PageLayout>;
   }
 
   return (
@@ -84,9 +63,9 @@ export function ExpenseDetailsPage() {
               <Chip
                 label={expense.status.toUpperCase()}
                 color={
-                  expense.status === 'approved'
+                  expense.status === 'Approved'
                     ? 'success'
-                    : expense.status === 'rejected'
+                    : expense.status === 'Rejected'
                     ? 'error'
                     : 'warning'
                 }
@@ -165,7 +144,7 @@ export function ExpenseDetailsPage() {
             )}
           </Paper>
 
-          {expense.status === 'pending' && (
+          {expense.status === 'Pending' && (
             <Paper sx={{ p: 3 }}>
               <Typography variant="h6" sx={{ mb: 2 }}>
                 Actions

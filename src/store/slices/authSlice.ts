@@ -25,16 +25,21 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials: { email: string; password: string }) => {
     // TODO: Replace with actual API call
-    const response = await new Promise<{ user: User; token: string }>((resolve) => {
+    const response = await new Promise<{ user: User; token: string }>((resolve, reject) => {
       setTimeout(() => {
-        resolve({
-          user: {
-            id: '1',
-            email: credentials.email,
-            name: 'John Doe',
-          },
-          token: 'dummy_token',
-        });
+        // Use demo@corpex.com/demo123 as valid credentials
+        if (credentials.email === 'demo@corpex.com' && credentials.password === 'demo123') {
+          resolve({
+            user: {
+              id: '1',
+              email: credentials.email,
+              name: 'John Doe',
+            },
+            token: 'dummy_token',
+          });
+        } else {
+          reject(new Error('Invalid email or password'));
+        }
       }, 1000);
     });
 

@@ -1,5 +1,7 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { NotificationProvider } from './contexts/NotificationContext';
 import { theme } from './theme';
 import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
@@ -9,64 +11,33 @@ import { ReportsPage } from './pages/ReportsPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { AddExpensePage } from './pages/AddExpensePage';
 import { Layout } from './components/Layout';
+import { useSelector } from 'react-redux';
+import { RootState } from './store/store';
 
 function App() {
+  // Check if user is logged in
+  const { token } = useSelector((state: RootState) => state.auth);
+  
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/"
-            element={
-              <Layout>
-                <DashboardPage />
-              </Layout>
-            }
-          />
-          <Route
-            path="/expenses"
-            element={
-              <Layout>
-                <ExpensesPage />
-              </Layout>
-            }
-          />
-          <Route
-            path="/expenses/:id"
-            element={
-              <Layout>
-                <ExpenseDetailsPage />
-              </Layout>
-            }
-          />
-          <Route
-            path="/add-expense"
-            element={
-              <Layout>
-                <AddExpensePage />
-              </Layout>
-            }
-          />
-          <Route
-            path="/reports"
-            element={
-              <Layout>
-                <ReportsPage />
-              </Layout>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <Layout>
-                <SettingsPage />
-              </Layout>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <NotificationProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={!token ? <LoginPage /> : <Navigate to="/" replace />} />
+              <Route path="/" element={token ? <Layout><DashboardPage /></Layout> : <Navigate to="/login" />} />
+              <Route path="/expenses" element={token ? <Layout><ExpensesPage /></Layout> : <Navigate to="/login" />} />
+              <Route path="/expenses/:id" element={token ? <Layout><ExpenseDetailsPage /></Layout> : <Navigate to="/login" />} />
+              <Route path="/add-expense" element={token ? <Layout><AddExpensePage /></Layout> : <Navigate to="/login" />} />
+              <Route path="/reports" element={token ? <Layout><ReportsPage /></Layout> : <Navigate to="/login" />} />
+              <Route path="/settings" element={token ? <Layout><SettingsPage /></Layout> : <Navigate to="/login" />} />
+              {/* Redirect unknown routes to dashboard */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </NotificationProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 

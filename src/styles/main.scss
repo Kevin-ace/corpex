@@ -1,6 +1,7 @@
 @use './abstracts/variables' as vars;
 @use './components/login';
 @use './components/sidebar';
+@use './responsive';
 
 // Reset styles
 *,

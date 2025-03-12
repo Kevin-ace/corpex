@@ -41,8 +41,3 @@ Corpex is an AI-powered corporate expense management platform designed to stream
 - **Routing**: React Router
 - **Build Tool**: Vite
 - **Package Manager**: npm
-
-
-
-
-

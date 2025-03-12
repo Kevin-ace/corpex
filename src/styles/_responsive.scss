@@ -1,0 +1,56 @@
+@use 'sass:map';
+@use './abstracts/variables' as vars;
+
+// Mobile-first breakpoints
+$breakpoints: (
+  'sm': 600px,
+  'md': 960px,
+  'lg': 1280px,
+  'xl': 1920px,
+);
+
+@mixin respond-to($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+}
+
+// Mobile navigation styles
+.mobile-nav {
+  display: block;
+  
+  @include respond-to('md') {
+    display: none;
+  }
+}
+
+// Responsive table styles
+.responsive-table {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  
+  table {
+    min-width: 600px;
+  }
+}
+
+// Responsive grid layouts
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: vars.$spacing-md;
+  
+  @include respond-to('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @include respond-to('md') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  @include respond-to('lg') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+} 
