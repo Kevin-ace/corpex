@@ -29,6 +29,7 @@ import { PageLayout } from '../components/PageLayout';
 import { RootState, AppDispatch } from '../store/store';
 import { fetchExpenses, setFilters, setPage, setLimit } from '../store/slices/expenseSlice';
 import { type ExpenseStatus, type ExpenseCategory } from '../types/expense';
+import { formatCurrency } from '../utils/formatters';
 
 // Define the expense categories
 const expenseCategories: ExpenseCategory[] = [
@@ -150,7 +151,7 @@ export function ExpensesPage() {
                   <TableCell>{expense.merchant}</TableCell>
                   <TableCell>{expense.category}</TableCell>
                   <TableCell align="right">
-                    ${expense.amount.toFixed(2)}
+                    {formatCurrency(expense.amount)}
                   </TableCell>
                   <TableCell>
                     <Chip

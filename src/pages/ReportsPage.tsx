@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Grid, Paper, Typography, Box, Select, MenuItem, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { PageLayout } from '../components/PageLayout';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { formatCurrency } from '../utils/formatters';
 
 export function ReportsPage() {
   const [timeRange, setTimeRange] = useState('thisMonth');
@@ -106,7 +107,7 @@ export function ReportsPage() {
                     <TableCell>{new Date(expense.date).toLocaleDateString()}</TableCell>
                     <TableCell>{expense.merchant}</TableCell>
                     <TableCell>{expense.category}</TableCell>
-                    <TableCell align="right">${expense.amount.toFixed(2)}</TableCell>
+                    <TableCell align="right">{formatCurrency(expense.amount)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

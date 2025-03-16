@@ -1,53 +1,70 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { 
-  Box, 
-  TextField, 
-  Button, 
-  Typography, 
-  Alert, 
-  Paper, 
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Alert,
+  Paper,
   Container,
   InputAdornment,
   IconButton,
   Divider,
   CircularProgress
 } from '@mui/material';
-import { Visibility, VisibilityOff, Email, Lock } from '@mui/icons-material';
+import { 
+  Visibility, 
+  VisibilityOff, 
+  Email, 
+  Lock, 
+  Person,
+  VerifiedUser 
+} from '@mui/icons-material';
 import { AppDispatch, RootState } from '../store/store';
-import { login, clearError } from '../store/slices/authSlice';
+import { register, clearError } from '../store/slices/authSlice';
 import logo from '../assets/image.png';
 import '../styles/components/login.scss';
 
-export function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export function RegistrationPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const location = useLocation();
   const { isLoading, error } = useSelector((state: RootState) => state.auth);
 
-  const from = location.state?.from?.pathname || '/';
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await dispatch(login({ email, password })).unwrap();
-      navigate(from, { replace: true });
+      await dispatch(register(formData)).unwrap();
+      navigate('/');
     } catch {
       // Error is handled by the reducer
     }
   };
 
-  const fillDemoCredentials = () => {
-    setEmail('demo@corpex.com');
-    setPassword('demo123');
+  const togglePasswordVisibility = () => {
+    setShowPassword(prev => !prev);
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(prev => !prev);
   };
 
   return (
@@ -72,13 +89,14 @@ export function LoginPage() {
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-              <img src={logo} alt="CorpEx Logo" style={{ width: '240px', height: 'auto' }} />
+              <img src={logo} alt="CorpEx Logo" style={{ width: '220px', height: 'auto' }} />
             </Box>
+            
             <Typography variant="h4" component="h1" fontWeight="500" gutterBottom>
-              Welcome Back
+              Create Account
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Sign in to manage your expenses
+              Join CorpEx to manage your company expenses efficiently
             </Typography>
           </Box>
 
@@ -99,10 +117,31 @@ export function LoginPage() {
             <Box sx={{ mb: 3 }}>
               <TextField
                 fullWidth
-                label="Email"
+                label="Full Name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                variant="outlined"
+                autoComplete="name"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Person color="action" />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Box>
+
+            <Box sx={{ mb: 3 }}>
+              <TextField
+                fullWidth
+                label="Email Address"
+                name="email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email}
+                onChange={handleChange}
                 required
                 variant="outlined"
                 autoComplete="email"
@@ -116,16 +155,17 @@ export function LoginPage() {
               />
             </Box>
 
-            <Box sx={{ mb: 1 }}>
+            <Box sx={{ mb: 3 }}>
               <TextField
                 fullWidth
                 label="Password"
+                name="password"
                 type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={handleChange}
                 required
                 variant="outlined"
-                autoComplete="current-password"
+                autoComplete="new-password"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -147,13 +187,37 @@ export function LoginPage() {
               />
             </Box>
 
-            <Typography
-              variant="body2"
-              sx={{ textAlign: 'right', mb: 3, cursor: 'pointer', color: 'primary.main' }}
-              onClick={() => navigate('/forgot-password')}
-            >
-              Forgot password?
-            </Typography>
+            <Box sx={{ mb: 3 }}>
+              <TextField
+                fullWidth
+                label="Confirm Password"
+                name="confirmPassword"
+                type={showConfirmPassword ? 'text' : 'password'}
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+                variant="outlined"
+                autoComplete="new-password"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <VerifiedUser color="action" />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle confirm password visibility"
+                        onClick={toggleConfirmPasswordVisibility}
+                        edge="end"
+                      >
+                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Box>
 
             <Button
               fullWidth
@@ -172,26 +236,11 @@ export function LoginPage() {
               {isLoading ? (
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <CircularProgress size={24} color="inherit" sx={{ mr: 1 }} />
-                  Signing in...
+                  Creating Account...
                 </Box>
               ) : (
-                'Sign in'
+                'Create Account'
               )}
-            </Button>
-
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={fillDemoCredentials}
-              sx={{ 
-                mb: 2, 
-                py: 1.5,
-                borderRadius: 1.5,
-                textTransform: 'none',
-                fontSize: '0.9rem'
-              }}
-            >
-              Use demo account
             </Button>
 
             <Divider sx={{ my: 3 }}>
@@ -202,14 +251,14 @@ export function LoginPage() {
 
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2">
-                Don't have an account?{' '}
+                Already have an account?{' '}
                 <Typography
                   component="span"
                   variant="body2"
                   sx={{ color: 'primary.main', cursor: 'pointer', fontWeight: 'medium' }}
-                  onClick={() => navigate('/signup')}
+                  onClick={() => navigate('/login')}
                 >
-                  Sign up
+                  Sign in
                 </Typography>
               </Typography>
             </Box>

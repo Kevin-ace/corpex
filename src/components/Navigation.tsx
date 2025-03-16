@@ -9,6 +9,7 @@ import {
   Typography,
   Avatar
 } from '@mui/material';
+import logo from '../../logo.jpeg';  // Import the logo image
 import {
   Dashboard as DashboardIcon,
   Receipt as ExpensesIcon,
@@ -44,7 +45,7 @@ export function Navigation() {
     >
       <Box sx={{ p: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
-          <img src="/logo.svg" alt="Corpex" style={{ height: 32 }} />
+          <img src={logo} alt="Corpex" style={{ height: 32 }} />
           <Typography variant="h6" sx={{ ml: 2 }}>Corpex</Typography>
         </Box>
 

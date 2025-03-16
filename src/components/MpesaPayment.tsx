@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogActions,
 } from '@mui/material';
+import { formatCurrency } from '../utils/formatters';
 
 interface MpesaPaymentProps {
   amount: number;
@@ -45,7 +46,7 @@ export function MpesaPayment({ amount, onSuccess, onCancel }: MpesaPaymentProps)
         {step === 'input' && (
           <Box sx={{ pt: 2 }}>
             <Typography variant="body2" sx={{ mb: 2 }}>
-              Amount to pay: KES {amount.toFixed(2)}
+              Amount to pay: {formatCurrency(amount)}
             </Typography>
             <TextField
               fullWidth

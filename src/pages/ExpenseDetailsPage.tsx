@@ -14,6 +14,7 @@ import { useDropzone } from 'react-dropzone';
 import { PageLayout } from '../components/PageLayout';
 import { RootState } from '../store/store';
 import { CloudUpload as CloudUploadIcon } from '@mui/icons-material';
+import { formatCurrency } from '../utils/formatters';
 
 export function ExpenseDetailsPage() {
   const { id } = useParams();
@@ -84,7 +85,7 @@ export function ExpenseDetailsPage() {
                   Amount
                 </Typography>
                 <Typography variant="body1">
-                  ${expense.amount.toFixed(2)}
+                  {formatCurrency(expense.amount)}
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6}>

@@ -4,6 +4,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { theme } from './theme';
 import { LoginPage } from './pages/LoginPage';
+import { RegistrationPage } from './pages/RegistrationPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { ExpensesPage } from './pages/ExpensesPage';
 import { ExpenseDetailsPage } from './pages/ExpenseDetailsPage';
@@ -25,6 +26,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/login" element={!token ? <LoginPage /> : <Navigate to="/" replace />} />
+              <Route path="/signup" element={!token ? <RegistrationPage /> : <Navigate to="/" replace />} />
               <Route path="/" element={token ? <Layout><DashboardPage /></Layout> : <Navigate to="/login" />} />
               <Route path="/expenses" element={token ? <Layout><ExpensesPage /></Layout> : <Navigate to="/login" />} />
               <Route path="/expenses/:id" element={token ? <Layout><ExpenseDetailsPage /></Layout> : <Navigate to="/login" />} />

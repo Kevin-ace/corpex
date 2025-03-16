@@ -1,4 +1,4 @@
-import { Box, Typography, Breadcrumbs } from '@mui/material';
+import { Box, Typography, Breadcrumbs, useMediaQuery, useTheme, Container } from '@mui/material';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 
 interface PageLayoutProps {
@@ -9,14 +9,41 @@ interface PageLayoutProps {
 export function PageLayout({ title, children }: PageLayoutProps) {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Box>
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="h4" gutterBottom>
+    <Box
+      sx={{
+        width: '100%',
+        maxWidth: '100%',
+        overflow: 'hidden',
+      }}
+    >
+      <Box 
+        sx={{ 
+          mb: { xs: 2, sm: 3 },
+          px: { xs: 0, sm: 1 }
+        }}
+      >
+        <Typography 
+          variant={isSmallScreen ? "h5" : "h4"} 
+          gutterBottom
+          sx={{ 
+            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
+            fontWeight: 500
+          }}
+        >
           {title}
         </Typography>
-        <Breadcrumbs aria-label="breadcrumb">
+        <Breadcrumbs 
+          aria-label="breadcrumb"
+          sx={{ 
+            '& .MuiBreadcrumbs-ol': {
+              flexWrap: 'wrap'
+            }
+          }}
+        >
           <RouterLink 
             to="/"
             style={{ 
@@ -31,7 +58,7 @@ export function PageLayout({ title, children }: PageLayoutProps) {
             const isLast = index === pathnames.length - 1;
 
             return isLast ? (
-              <Typography key={name} color="text.primary">
+              <Typography key={name} color="text.primary" sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                 {name.charAt(0).toUpperCase() + name.slice(1)}
               </Typography>
             ) : (
@@ -49,7 +76,9 @@ export function PageLayout({ title, children }: PageLayoutProps) {
           })}
         </Breadcrumbs>
       </Box>
-      {children}
+      <Box sx={{ width: '100%' }}>
+        {children}
+      </Box>
     </Box>
   );
 } 

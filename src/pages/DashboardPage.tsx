@@ -1,10 +1,15 @@
-import { Grid, Box, Typography, Paper } from '@mui/material';
+import { Grid, Box, Typography, Paper, useTheme, useMediaQuery } from '@mui/material';
 import { PageLayout } from '../components/PageLayout';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
+import { formatCurrency } from '../utils/formatters';
 
 export function DashboardPage() {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'lg'));
+
   // Sample data - replace with real data from your state
   const trendData = [
     { month: 'Jan', amount: 2400 },
@@ -27,71 +32,105 @@ export function DashboardPage() {
 
   return (
     <PageLayout title="Dashboard">
-      <Grid container spacing={3}>
+      <Grid container spacing={{ xs: 2, sm: 3 }}>
         {/* Summary Cards */}
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={6} sm={6} md={3}>
           <Paper 
             sx={{ 
-              p: 3, 
+              p: { xs: 2, sm: 3 }, 
               textAlign: 'center',
               background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)',
-              color: 'white'
+              color: 'white',
+              borderRadius: 2,
+              boxShadow: 2,
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center'
             }}
           >
-            <Typography variant="h6">Total Expenses</Typography>
-            <Typography variant="h3">$12,450</Typography>
+            <Typography variant={isSmallScreen ? "subtitle1" : "h6"}>Total Expenses</Typography>
+            <Typography variant={isSmallScreen ? "h4" : "h3"} sx={{ my: 1 }}>{formatCurrency(1562500)}</Typography>
             <Typography variant="body2">This Month</Typography>
           </Paper>
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={6} sm={6} md={3}>
           <Paper 
             sx={{ 
-              p: 3, 
+              p: { xs: 2, sm: 3 }, 
               textAlign: 'center',
               background: 'linear-gradient(135deg, #FF9800 0%, #F57C00 100%)',
-              color: 'white'
+              color: 'white',
+              borderRadius: 2,
+              boxShadow: 2,
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center'
             }}
           >
-            <Typography variant="h6">Pending Approvals</Typography>
-            <Typography variant="h3">8</Typography>
+            <Typography variant={isSmallScreen ? "subtitle1" : "h6"}>Pending Approvals</Typography>
+            <Typography variant={isSmallScreen ? "h4" : "h3"} sx={{ my: 1 }}>8</Typography>
             <Typography variant="body2">Requires Action</Typography>
           </Paper>
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={6} sm={6} md={3}>
           <Paper 
             sx={{ 
-              p: 3, 
+              p: { xs: 2, sm: 3 }, 
               textAlign: 'center',
               background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)',
-              color: 'white'
+              color: 'white',
+              borderRadius: 2,
+              boxShadow: 2,
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center'
             }}
           >
-            <Typography variant="h6">Approved</Typography>
-            <Typography variant="h3">45</Typography>
+            <Typography variant={isSmallScreen ? "subtitle1" : "h6"}>Approved</Typography>
+            <Typography variant={isSmallScreen ? "h4" : "h3"} sx={{ my: 1 }}>45</Typography>
             <Typography variant="body2">This Month</Typography>
           </Paper>
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={6} sm={6} md={3}>
           <Paper 
             sx={{ 
-              p: 3, 
+              p: { xs: 2, sm: 3 }, 
               textAlign: 'center',
               background: 'linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%)',
-              color: 'white'
+              color: 'white',
+              borderRadius: 2,
+              boxShadow: 2,
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center'
             }}
           >
-            <Typography variant="h6">Rejected</Typography>
-            <Typography variant="h3">3</Typography>
+            <Typography variant={isSmallScreen ? "subtitle1" : "h6"}>Rejected</Typography>
+            <Typography variant={isSmallScreen ? "h4" : "h3"} sx={{ my: 1 }}>3</Typography>
             <Typography variant="body2">This Month</Typography>
           </Paper>
         </Grid>
 
         {/* Charts Section */}
         <Grid item xs={12} lg={8}>
-          <Paper sx={{ p: 3, height: '400px' }}>
+          <Paper sx={{ 
+            p: { xs: 2, sm: 3 }, 
+            height: { xs: '350px', sm: '400px', lg: '450px' },
+            borderRadius: 2,
+            boxShadow: 2
+          }}>
             <Typography variant="h6" sx={{ mb: 2 }}>Expense Trends</Typography>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={trendData}>
+            <ResponsiveContainer width="100%" height={isSmallScreen ? 250 : 300}>
+              <BarChart data={trendData} margin={{ 
+                top: 5, 
+                right: isSmallScreen ? 10 : 30, 
+                left: isSmallScreen ? -20 : 0, 
+                bottom: 5 
+              }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis />
@@ -102,17 +141,22 @@ export function DashboardPage() {
           </Paper>
         </Grid>
         <Grid item xs={12} lg={4}>
-          <Paper sx={{ p: 3, height: '400px' }}>
+          <Paper sx={{ 
+            p: { xs: 2, sm: 3 }, 
+            height: { xs: '350px', sm: '400px', lg: '450px' },
+            borderRadius: 2,
+            boxShadow: 2
+          }}>
             <Typography variant="h6" sx={{ mb: 2 }}>Category Distribution</Typography>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={isSmallScreen ? 250 : 300}>
               <PieChart>
                 <Pie
                   data={categoryData}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={80}
+                  label={({ name, percent }) => isSmallScreen ? (percent * 100).toFixed(0) + '%' : `${name} ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={isSmallScreen ? 60 : 80}
                   fill="#8884d8"
                   dataKey="value"
                 >
