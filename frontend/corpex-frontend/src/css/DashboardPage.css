@@ -1,0 +1,51 @@
+.dashboard-page {
+  padding: 20px;
+}
+
+.dashboard-cards {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 23%;
+}
+
+.total-expenses {
+  background-color: #28a745;
+  color: white;
+}
+
+.pending-approvals {
+  background-color: #ffc107;
+  color: white;
+}
+
+.approved {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.rejected {
+  background-color: #dc3545;
+  color: white;
+}
+
+.dashboard-charts {
+  display: flex;
+  justify-content: space-around;
+}
+
+.expense-trends, .category-distribution {
+  width: 45%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

@@ -1,6 +1,6 @@
 # Corpex – Smart Corporate Expense Management
 
-Corpex is an AI-powered corporate expense management platform designed to streamline expense tracking, automate report creation and approvals, and provide real-time financial insights. Built with the needs of Kenyan businesses in mind, Corpex integrates local mobile banking (e.g., M-Pesa) and regulatory compliance (KRA, CBK) with modern cloud and AI technologies.
+Corpex is an AI-powered corporate expense management platform designed to streamline expense tracking, automate report creation and approvals, and provide real-time financial insights. Built with the needs of Kenyan businesses in mind, Corpex integrates local mobile banking (e.g., M-Pesa, KCB, Equity, Co-operative, stanbic, paypal e.t.c) and regulatory compliance (KRA, CBK) with modern cloud and AI technologies.
 
 ## Features
 
@@ -31,13 +31,3 @@ Corpex is an AI-powered corporate expense management platform designed to stream
 - **Scalability:**  
   - Designed for SMEs and corporates with potential to expand regionally and globally.
 
-
-## Tech Stack
-
-- **Frontend Framework**: React with TypeScript
-- **State Management**: Redux Toolkit
-- **UI Framework**: Material-UI
-- **Styling**: SASS/SCSS
-- **Routing**: React Router
-- **Build Tool**: Vite
-- **Package Manager**: npm
